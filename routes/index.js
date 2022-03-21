@@ -6,4 +6,6 @@ module.exports = routes;
 
 console.log("hii from router/indes.js");
 
+
 routes.get('/', homeController.home);
+routes.use('/user', require('./user'));
