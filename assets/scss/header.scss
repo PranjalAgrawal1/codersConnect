@@ -1,0 +1,16 @@
+header{
+    width: 99vw;
+    background-color: aquamarine;
+    margin: 0px;
+
+}
+
+div{
+    margin: 5px;
+}
+#header-flex{
+    width: 90vw;
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

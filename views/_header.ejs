@@ -1,0 +1,36 @@
+<header>   
+    
+
+    <div id = "header-flex">
+        <div>
+            Hi Coder Wellcome To Coders Connect
+
+        </div>
+        <% if (locals.user) { %>
+
+            <div> <%= user.name %> &nbsp
+                <a href="/user/signout"> sign out </a>
+            </div>
+
+
+        <% } else { %>
+            <div> 
+                <a href="/user/signin"> sign in</a>
+                &nbsp
+            
+                <a href="/user/signup"> sign up</a>
+            </div>
+
+        <% } %>
+
+
+
+
+
+
+
+    </div>
+
+
+
+</header>

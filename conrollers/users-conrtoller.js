@@ -8,6 +8,12 @@ module.exports.profile = function(req, res){
 }
 
 module.exports.signup = function(req, res){
+
+    if(req.isAuthenticated()){
+        return res.redirect('/user/profile');
+    }
+
+
     return res.render('user_signup', {
         title: "CodersConnect | signup"
     })
@@ -15,6 +21,11 @@ module.exports.signup = function(req, res){
 
 
 module.exports.signin = function(req, res){
+
+    if(req.isAuthenticated()){
+        return res.redirect('/user/profile');
+    }
+
     return res.render('user_signin', {
         title: "CodersConnect | signin"
     })
@@ -51,5 +62,10 @@ module.exports.create = function(req, res){
 }
 
 module.exports.createSession = function(req, res){
-    // code later to login
+    return res.redirect('/');
+}
+
+module.exports.releasSeassion = function(req, res){
+    req.logout();
+    return res.redirect('/');
 }
