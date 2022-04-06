@@ -19,14 +19,19 @@ app.use(saasMiddleware({
     outputStyle: 'expanded',
     prefix: '/css'
 }));
-
 app.use(express.urlencoded());
+
 app.use(cookieparser());
 
 app.use(express.static('./assets'));
+
 app.use(expressLayouts);
+
 app.set('layout extractStyles', true);
 app.set('layout extractScripts', true);
+
+
+
 
 // setup the view engine
 app.set('view engine', 'ejs');
@@ -42,17 +47,17 @@ app.use(session({
     cookie : {
         maxAge: (1000 * 60 * 100),
     },
-    store: MongoStore.create({
+    store: MongoStore.create(
+        {
 
         mongoUrl: db._connectionString,
         autoRemove : 'disabled' 
-    },    
-    function(err){
-        console.log(err || 'connect-mongose setup ok'); 
-    })
+        },    
+        function(err){
+            console.log(err || 'connect-mongose setup ok'); 
+        }
+    )
 }));
-
-
 
 app.use(passport.initialize());
 app.use(passport.session());

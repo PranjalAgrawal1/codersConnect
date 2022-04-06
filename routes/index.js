@@ -9,5 +9,7 @@ routes.get('/', homeController.home);
 
 routes.use('/user', require('./user'));
 
+routes.use('/posts', require('./posts'));
+
 module.exports = routes;
 
