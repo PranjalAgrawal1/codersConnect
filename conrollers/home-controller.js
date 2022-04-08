@@ -15,7 +15,15 @@ module.exports.home = function(req, res){
     // });
 
     // populate the user of each post
-    post.find({}).populate('user').exec(function(err, posts){
+    post.find({})
+    .populate('user')
+    .populate({
+        path: 'comments',
+        populate:{
+            path : 'user',
+        }
+    })
+    .exec(function(err, posts){
         console.log(posts);
         return res.render('home', {
             title: "CodersConnect",

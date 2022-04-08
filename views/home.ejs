@@ -1,19 +1,12 @@
 <h1>hii this is <%= title %> </h1>
-
-
 <section id="feed-posts">
-
     <h4> Posts </h4>
-
     <% if(locals.user) { %>
-        <form action="/posts/create" id = "new-post-form" method="post">
-            <textarea name="content" cols="30" rows="3" placeholder="Type Here...."></textarea>
+        <form action="/posts/create" id = "new-post-form" method="post" >
+            <textarea name="content" cols="30" rows="3" placeholder="Type Here...." required></textarea>
             <input type="submit" value="Post">
         </form>
-
     <% } %>
-
-
     <div id = "post-container">
 
         <ul>
@@ -24,13 +17,31 @@
                     <small> 
                         <%= post.user.name %>
                     </small> 
+                    <div class="post-comments">
+                        <% if(locals.user) { %>
+                            <form action="/comments/create" method="post">
+                                <input type="text" name="content" placeholder="Add Comments Here...." required>
+                                <input type="hidden" name="post" value="<%= post._id %>">
+                                <input type="submit" value="Add Comment">
+
+                            </form>
+                        <% } %>
+                        <div class="post-comments-list">
+                            <ul id = "post-comments-<%= post._id%>">
+                                <%  for(Comment of post.comments){ %>
+                                    <p>
+                                        <%= Comment.content %>
+                                        <br>
+                                        <small>
+                                            <%= Comment.user.name %>
+                                        </small>
+                                    </p>
+                                <% } %>
+                            </ul>
+                        </div>
+                    </div>
                 </li>
-
             <% } %>
-
         </ul>
-
     </div>
-
 </section>
-    
