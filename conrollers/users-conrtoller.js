@@ -2,15 +2,18 @@ const User = require('../models/user');
 
 
 module.exports.profile = function(req, res){
-    return res.render('user_profile', {
-        title : "user profile"
+    User.findById(req.params.id, function(arr, user){
+        return res.render("user_profile", {
+            title : "user profile",
+            profile_user: user
+        })
     })
 }
 
 module.exports.signup = function(req, res){
 
     if(req.isAuthenticated()){
-        return res.redirect('/user/profile');
+        return res.redirect('/user/profile/:id');
     }
 
 
@@ -23,7 +26,7 @@ module.exports.signup = function(req, res){
 module.exports.signin = function(req, res){
 
     if(req.isAuthenticated()){
-        return res.redirect('/user/profile');
+        return res.redirect('/user/profile/:id');
     }
 
     return res.render('user_signin', {
