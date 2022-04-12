@@ -1,36 +1,40 @@
-<header>   
-    
+<header id="layout-header">
 
-    <div id = "header-flex">
-        <div>
-            Hi Coder Wellcome To Coders Connect
+    <nav>
+        <div id = "mini-logo"> 
+            <p>
+                <a href="/">
+                    Hi Coder Wellcome To Coders Connect
+                </a>
+
+            </p>
+            
 
         </div>
-        <% if (locals.user) { %>
-
-            <div> <%= user.name %> &nbsp
-                <a href="/user/signout"> sign out </a>
-            </div>
 
 
-        <% } else { %>
-            <div> 
-                <a href="/user/signin"> sign in</a>
-                &nbsp
+        <div class="auth-links">
+            <p>
+                <ul>
+                    <% if (locals.user) { %>
+                    <li>
+                        <a href="/user/profile"> <%= user.name %> </a>
+                    </li>
+                    <li>
+                        <a href="/user/signout"> sign out </a>
+                    </li>
+                    <% } else { %>
+                    <li>
+                        <a href="/user/signin"> sign in</a>
+                    </li>
+                    <li>
+                        <a href="/user/signup"> sign up</a>
+                    </li>
+                    <% } %>
+                </ul>
+
+            </p>
             
-                <a href="/user/signup"> sign up</a>
-            </div>
-
-        <% } %>
-
-
-
-
-
-
-
-    </div>
-
-
-
+        </div>
+    </nav>
 </header>

@@ -10,6 +10,16 @@ module.exports.profile = function(req, res){
     })
 }
 
+module.exports.update = function(req, res){
+    if(req.params.id == req.user.id){
+        User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
+            return res.redirect('back');
+        });
+    } else {
+        return res.status(401).send('Unauthorized');
+    }
+}
+
 module.exports.signup = function(req, res){
 
     if(req.isAuthenticated()){

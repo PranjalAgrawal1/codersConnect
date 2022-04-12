@@ -1,0 +1,13 @@
+#layout-footer {
+  color: black;
+  background: aquamarine;
+  padding: 5px 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#layout-footer a {
+  color: black;
+  text-decoration: none;
+  padding: 5px 10px;
+}
