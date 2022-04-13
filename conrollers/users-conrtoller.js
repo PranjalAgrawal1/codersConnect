@@ -1,18 +1,18 @@
 const User = require('../models/user');
 
 
-module.exports.profile = function(req, res){
-    User.findById(req.params.id, function(arr, user){
+module.exports.profile = function (req, res) {
+    User.findById(req.params.id, function (arr, user) {
         return res.render("user_profile", {
-            title : "user profile",
+            title: "user profile",
             profile_user: user
         })
     })
 }
 
-module.exports.update = function(req, res){
-    if(req.params.id == req.user.id){
-        User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
+module.exports.update = function (req, res) {
+    if (req.params.id == req.user.id) {
+        User.findByIdAndUpdate(req.params.id, req.body, function (err, user) {
             return res.redirect('back');
         });
     } else {
@@ -20,9 +20,9 @@ module.exports.update = function(req, res){
     }
 }
 
-module.exports.signup = function(req, res){
+module.exports.signup = function (req, res) {
 
-    if(req.isAuthenticated()){
+    if (req.isAuthenticated()) {
         return res.redirect('/user/profile/:id');
     }
 
@@ -33,9 +33,9 @@ module.exports.signup = function(req, res){
 }
 
 
-module.exports.signin = function(req, res){
+module.exports.signin = function (req, res) {
 
-    if(req.isAuthenticated()){
+    if (req.isAuthenticated()) {
         return res.redirect('/user/profile/:id');
     }
 
@@ -44,23 +44,23 @@ module.exports.signin = function(req, res){
     })
 }
 
-module.exports.create = function(req, res){
-    if(req.body.email != req.body.confirm_email ){
+module.exports.create = function (req, res) {
+    if (req.body.email != req.body.confirm_email) {
         return res.redirect('back');
     }
 
-    if(req.body.password != req.body.confirm_password){
+    if (req.body.password != req.body.confirm_password) {
         return res.redirect('back');
     }
-    User.findOne({email : req.body.email}, function(err, usr){
-        if(err){
+    User.findOne({ email: req.body.email }, function (err, usr) {
+        if (err) {
             console.log('cannot find user');
             return;
         }
 
-        if(!usr){
-            User.create(req.body, function(err, usr){
-                if(err){
+        if (!usr) {
+            User.create(req.body, function (err, usr) {
+                if (err) {
                     console.log('cannot create user');
                     return;
                 }
@@ -74,11 +74,14 @@ module.exports.create = function(req, res){
     })
 }
 
-module.exports.createSession = function(req, res){
+module.exports.createSession = function (req, res) {
+    req.flash('success', 'Logged in Successfully');
     return res.redirect('/');
 }
 
-module.exports.releasSeassion = function(req, res){
+module.exports.releasSeassion = function (req, res) {
     req.logout();
+    req.flash('success', 'Logged out Successfully');
+
     return res.redirect('/');
 }

@@ -11,6 +11,11 @@ const passport = require('passport');
 const passportLocal = require('./config/passport-local-str');
 const MongoStore = require('connect-mongo');
 const saasMiddleware = require('node-sass-middleware');
+const flash = require('connect-flash');
+const customMware = require('./config/middleware');
+
+
+
 
 app.use(saasMiddleware({
     src: './assets/scss',
@@ -41,20 +46,20 @@ app.set('views', './views');
 app.use(session({
     name: 'cosersconnect',
     // todo change the secret before deployment in production mode
-    secret : 'pranjal',
+    secret: 'pranjal',
     saveUninitialized: false,
     resave: false,
-    cookie : {
+    cookie: {
         maxAge: (1000 * 60 * 100),
     },
     store: MongoStore.create(
         {
 
-        mongoUrl: db._connectionString,
-        autoRemove : 'disabled' 
-        },    
-        function(err){
-            console.log(err || 'connect-mongose setup ok'); 
+            mongoUrl: db._connectionString,
+            autoRemove: 'disabled'
+        },
+        function (err) {
+            console.log(err || 'connect-mongose setup ok');
         }
     )
 }));
@@ -62,14 +67,18 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(passport.setAuthenticatedUser)
+app.use(passport.setAuthenticatedUser);
+
+app.use(flash());
+app.use(customMware.setFlash);
 
 //use routers
 app.use('/', require('./routes'));
 
 
-app.listen(port, function(err){
-    if(err){
+
+app.listen(port, function (err) {
+    if (err) {
         console.log("error surver is not running on port : ", port);
     }
     console.log("surver is runing on port : ", port);
