@@ -13,12 +13,12 @@ const User = require('../models/user');
 passport.use(new localStr({
     usernameField: 'email',
     passReqToCallback: true,
-}, function (email, password, done) {
+}, function (req, email, password, done) {
     //find a user ans establish the identit
 
     User.findOne({ email: email }, function (err, user) {
         if (err) {
-            req.flash('error', err)
+            req.flash('error', err);
             return done(err);
         }
 
