@@ -30,6 +30,9 @@ app.use(cookieparser());
 
 app.use(express.static('./assets'));
 
+//make the uploads path available to browser
+app.use('/uploads', express.static(__dirname + '/uploads'));
+
 app.use(expressLayouts);
 
 app.set('layout extractStyles', true);
@@ -50,7 +53,7 @@ app.use(session({
     saveUninitialized: false,
     resave: false,
     cookie: {
-        maxAge: (1000 * 60 * 100),
+        maxAge: (24 * 60 * 60 * 1000 ),
     },
     store: MongoStore.create(
         {

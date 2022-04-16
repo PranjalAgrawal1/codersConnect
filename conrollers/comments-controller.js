@@ -13,11 +13,14 @@ module.exports.create = function(req, res){
                 user: req.user._id
             }, function(err, comment){
                 if(err){
-                    console.log('error in creating a post');
+                    req.flash('error', 'Cannot Add Comment');
+
                     return;
                 }
                 post.comments.push(comment);
                 post.save();
+                req.flash('success', 'Comment Added Successfully');
+
                 res.redirect('back');
             })
         }
@@ -61,10 +64,14 @@ module.exports.destroy = function(req, res){
                     comments : req.params.id
                 }
             }, function(err, post){
+                
                 Comment.remove();
+                req.flash('success', 'Comment Deleted SuccessFully');
+
             return res.redirect('back')
             })
         } else {
+            req.flash('error', 'Cannot Delete Comment');
             return res.redirect('back');
         }
     })
