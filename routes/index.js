@@ -12,5 +12,11 @@ routes.use('/user', require('./user'));
 routes.use('/posts', require('./posts'));
 
 routes.use('/comments', require('./comments'));
+
+
+routes.use('/api', require('./api'));
+
+
+
 module.exports = routes;
 
