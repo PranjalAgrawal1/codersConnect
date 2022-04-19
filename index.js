@@ -9,6 +9,7 @@ const db = require('./config/mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-str');
+const passportJWT = require('./config/passport-jwt-strategy');
 const MongoStore = require('connect-mongo');
 const saasMiddleware = require('node-sass-middleware');
 const flash = require('connect-flash');
@@ -53,7 +54,7 @@ app.use(session({
     saveUninitialized: false,
     resave: false,
     cookie: {
-        maxAge: (24 * 60 * 60 * 1000 ),
+        maxAge: (24 * 60 * 60 * 1000),
     },
     store: MongoStore.create(
         {

@@ -21,33 +21,33 @@ module.exports.update = async function (req, res) {
     // } else {
     //     return res.status(401).send('Unauthorized');
     // }
-    if(req.params.id == req.user.id){
-        try{
-            
+    if (req.params.id == req.user.id) {
+        try {
+
             let user = await User.findById(req.params.id);
 
             // console.log(user);
 
-            User.uploadedAvatar(req, res, function(err){
-                if(err){
+            User.uploadedAvatar(req, res, function (err) {
+                if (err) {
                     console.log('***************** Multer Error ', err);
                 }
                 // console.log(req.file);
                 user.name = req.body.name;
                 user.email = req.body.email;
-                
-                if(req.file){
 
-                    if(user.avatar){
+                if (req.file) {
+
+                    if (user.avatar) {
 
                         let imgPath = path.join(__dirname, '..', user.avatar);
                         try {
                             if (fs.existsSync(imgPath)) {
                                 fs.unlinkSync(imgPath);
                             }
-                          } catch(err) {
+                        } catch (err) {
                             console.error(err)
-                          }
+                        }
                     }
                     user.avatar = User.avatarPath + '/' + req.file.filename
                 }
@@ -56,14 +56,14 @@ module.exports.update = async function (req, res) {
                 return res.redirect('back')
 
             })
-             
-        }catch(err){
+
+        } catch (err) {
             req.flash('error', err);
             console.log(err);
             return res.redirect('back');
         }
 
-    } else {        
+    } else {
         return res.status(401).send('Unauthorized');
     }
 }
