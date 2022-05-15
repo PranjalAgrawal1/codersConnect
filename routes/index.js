@@ -14,9 +14,9 @@ routes.use('/posts', require('./posts'));
 routes.use('/comments', require('./comments'));
 
 
-routes.use('/api', require('./api'));
 
-routes.use('/like', require('./likes'));
+routes.use('/likes', require('./likes'));
+routes.use('/api', require('./api'));
 
 
 module.exports = routes;

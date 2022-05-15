@@ -1,40 +1,32 @@
 <header id="layout-header">
-
     <nav>
         <div id = "mini-logo"> 
             <p>
                 <a href="/">
                     Hi Coder Wellcome To Coders Connect
                 </a>
-
             </p>
-            
-
         </div>
 
-
         <div class="auth-links">
-            <p>
-                <ul>
-                    <% if (locals.user) { %>
-                    <li>
-                        <a href="/user/profile"> <%= user.name %> </a>
-                    </li>
-                    <li>
-                        <a href="/user/signout"> sign out </a>
-                    </li>
-                    <% } else { %>
-                    <li>
-                        <a href="/user/signin"> sign in</a>
-                    </li>
-                    <li>
-                        <a href="/user/signup"> sign up</a>
-                    </li>
-                    <% } %>
-                </ul>
-
-            </p>
             
+            <ul>
+                <% if (locals.user) { %>
+                <li>
+                    <a href="/user/profile"> <%= user.name %> </a>
+                </li>
+                <li>
+                    <a href="/user/signout"> sign out </a>
+                </li>
+                <% } else { %>
+                <li>
+                    <a href="/user/signin"> sign in</a>
+                </li>
+                <li>
+                    <a href="/user/signup"> sign up</a>
+                </li>
+                <% } %>
+            </ul>
         </div>
     </nav>
 </header>

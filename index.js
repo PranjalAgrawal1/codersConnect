@@ -29,7 +29,7 @@ app.use(saasMiddleware({
     outputStyle: 'expanded',
     prefix: '/css'
 }));
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended:false}));
 
 app.use(cookieparser());
 
@@ -62,7 +62,6 @@ app.use(session({
     },
     store: MongoStore.create(
         {
-
             mongoUrl: db._connectionString,
             autoRemove: 'disabled'
         },

@@ -19,9 +19,7 @@ const commentSchema = new mongoose.Schema({
         {
             type: mongoose.Schema.ObjectId,
             ref: 'Like'
-
         }
-
     ],
 }, {
     timestamps: true

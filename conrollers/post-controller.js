@@ -1,5 +1,6 @@
 const Post = require('../models/post');
 const Comment = require('../models/comments');
+const Like = require('../models/like');
 
 
 // module.exports.create = function(req, res){
@@ -70,11 +71,24 @@ module.exports.destroy = async function (req, res) {
 
         let post = await Post.findById(req.params.id);
         if (post.user == req.user.id) {
+
+
+            await Like.deleteMany({
+                likable: post,
+                onModel: 'Post'
+            });
+            
+
+            await Like.deleteMany({
+                _id: {
+                    $in: post.comments
+                }
+            });
+
             post.remove();
             await Comment.deleteMany({
                 post: req.params.id,
             });
-
 
             if (req.xhr) {
                 return res.status(200).json({
@@ -84,11 +98,15 @@ module.exports.destroy = async function (req, res) {
                     message: 'post deleted'
                 })
             }
+
             req.flash('success', 'Post & Associated Comments Deleted')
             return res.redirect('back');
+
         } else {
+
             req.flash('error', 'You cannot delete this post!');
             return res.redirect('back');
+            
         }
 
     } catch (err) {

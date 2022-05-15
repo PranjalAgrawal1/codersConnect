@@ -1,10 +1,9 @@
-const { redirect } = require('express/lib/response');
 const Comment = require('../models/comments');
-const { findByIdAndDelete } = require('../models/post');
 const Post = require('../models/post');
 const queue = require('../config/kue');
 const commentsMailer = require('../mailers/comments_mailer');
 const commentEmailWorker = require('../workers/comment_email_worker');
+const Like = require('../models/like')
 
 module.exports.create = async function (req, res) {
 
@@ -16,6 +15,7 @@ module.exports.create = async function (req, res) {
                 post: req.body.post,
                 user: req.user._id
             })
+            
             post.comments.push(comment);
             post.save();
 
@@ -56,10 +56,14 @@ module.exports.destroy = async function (req, res) {
         if (comment.user == req.user.id) {
 
             let postId = comment.post;
-
             comment.remove();
+            let post = await Post.findByIdAndUpdate(postId, { $pull: { comments: req.params.id } });
+            console.log("pranjal : " + comment);
 
-            let post = Post.findByIdAndUpdate(postId, { $pull: { comments: req.params.id } });
+            await Like.deleteMany({
+                likable: comment._id,
+                onModel: 'Comment'
+            });
 
             // send the comment id which was deleted back to the views
             if (req.xhr) {
@@ -70,10 +74,7 @@ module.exports.destroy = async function (req, res) {
                     message: "Post deleted"
                 });
             }
-
-
             req.flash('success', 'Comment deleted!');
-
             return res.redirect('back');
         } else {
             req.flash('error', 'Unauthorized');
@@ -83,7 +84,6 @@ module.exports.destroy = async function (req, res) {
         req.flash('error', err);
         return;
     }
-
 }
 
 

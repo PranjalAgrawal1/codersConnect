@@ -1,17 +1,31 @@
-<li id = "post-<%= post._id %>"> 
-    <% if(locals.user && locals.user.id == post.user.id) { %>
-        <SMALL>
-            <a class="delete-post-button" href="/posts/destroy/<%= post.id %>"> X </a>
-        </SMALL>
-    <% } %>
-    
-    <%= post.content %>
-    <small> 
-        <%= post.user.name %>
-    </small> 
+<li id="post-<%= post._id %>">
+    <p>
+        <% if(locals.user && locals.user.id==post.user.id) { %>
+            <SMALL>
+                <a class="delete-post-button" href="/posts/destroy/<%= post.id %>"> X </a>
+            </SMALL>
+        <% } %>
+
+        <%= post.content %>
+        <small>
+            <%= post.user.name %>
+        </small>
+        <br>
+        <small>
+            <% if(locals.user) { %>
+                <a class="toggle-like-button" data-likes="<%= post.likes.length %>" href="/likes/toggle/?id=<%=post._id%>&type=Post">
+                    <%= post.likes.length %> Likes
+                </a>
+            <% } else { %>
+                <%= post.likes.length %> Likes
+            <% } %>
+            </small>
+    </p>
+
+
     <div class="post-comments">
         <% if(locals.user) { %>
-            <form action="/comments/create" method="post">
+            <form id="post-<%= post._id %>-comments-form" action="/comments/create" method="post">
                 <input type="text" name="content" placeholder="Add Comments Here...." required>
                 <input type="hidden" name="post" value="<%= post.id %>">
                 <input type="submit" value="Add Comment">
@@ -19,11 +33,11 @@
             </form>
         <% } %>
         <div class="post-comments-list">
-            <ul id = "post-comments-<%= post._id%>">
-                <%  for(Comment of post.comments){ %>
-                   
+            <ul id="post-comments-<%= post._id%>">
+                <% for(Comment of post.comments){ %>
+
                     <%- include('_comment') -%>
-                    
+
                 <% } %>
             </ul>
         </div>

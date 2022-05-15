@@ -9,40 +9,59 @@ module.exports.toggleLike = async function (req, res) {
         let likeable;
         let deleted = false;
 
-
         if (req.query.type == 'Post') {
             likeable = await Post.findById(req.query.id).populate('likes');
-
         } else {
             likeable = await Comment.findById(req.query.id).populate('likes');
         }
 
+        // if (req.query.type == 'Post') {
+        //     likeable = Post
+        // } else {
+        //     likeable = Comment
+        // }
+
+        // console.log(req.user.id)
+        // console.log(req);
+
         // check if a like already exists
+
         let existingLike = await Like.findOne({
-            likeable: req.query.id,
+            likable: req.query.id,
             onModel: req.query.type,
-            user: req.user._id
-        })
+            user: req.user.id
+        });
+
+        
+
+        console.log(' existingLike like : ', existingLike)
 
         //if a like already exists then Delete it
 
-        if(existingLike){
-            likeable.likes.pull(existingLike._id);
-            likeable.save();
+        if (existingLike) {
 
-            existingLike.remove();
+            likeable.likes.pull(existingLike);            
+            likeable.save();
+            existingLike.remove()
             deleted = true;
-        }else {
+        } 
+        else {
             let newLike = await Like.create({
-                user: req.user._id,
-                likeable: req.query.id,
+                user: req.user.id,
+                likable: req.query.id,
                 onModel: req.query.type,
 
             });
-        }
 
-        likeable.likes.push(like._id);
-        likeable.save();
+            // await likeable.findById(req.query.id).populate('likes')
+
+            likeable.likes.push(newLike.id);
+            likeable.save();
+
+
+            // console.log('newLike : ', newLike);
+            
+        }
 
         return res.json(200, {
             message: 'request successfull',
