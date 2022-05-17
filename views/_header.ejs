@@ -13,17 +13,20 @@
             <ul>
                 <% if (locals.user) { %>
                 <li>
-                    <a href="/user/profile"> <%= user.name %> </a>
+                    <a href="/user/profile/<%= locals.user.id %> "> <%= user.name %> </a>
                 </li>
                 <li>
-                    <a href="/user/signout"> sign out </a>
+                    <a href="/"> Home </a>
+                </li>
+                <li>
+                    <a href="/user/signout"> Sign out </a>
                 </li>
                 <% } else { %>
                 <li>
-                    <a href="/user/signin"> sign in</a>
+                    <a href="/user/signin"> Sign in</a>
                 </li>
                 <li>
-                    <a href="/user/signup"> sign up</a>
+                    <a href="/user/signup"> Sign up</a>
                 </li>
                 <% } %>
             </ul>
