@@ -46,7 +46,7 @@ module.exports.update = async function (req, res) {
                                 fs.unlinkSync(imgPath);
                             }
                         } catch (err) {
-                            console.error(err)
+                            console.error(err); 
                         }
                     }
                     user.avatar = User.avatarPath + '/' + req.file.filename
